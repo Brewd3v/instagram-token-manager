@@ -7,6 +7,17 @@ services:
       - tokens_data:/data
     env_file: .env
     restart: unless-stopped
+    networks:
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.instagram-token-manager.rule=Host(`${SERVICE_FQDN_APP_3000}`)"
+      - "traefik.http.routers.instagram-token-manager.entrypoints=http"
+      - "traefik.http.services.instagram-token-manager.loadbalancer.server.port=3000"
+
+networks:
+  coolify:
+    external: true
 
 volumes:
   tokens_data:
